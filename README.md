@@ -53,5 +53,9 @@ Comparison Example
         ]
     }
 
-
+### Train.txt
+    label_map = {"Entailment": 0,
+                 "Contradiction": 1
+    }
+    "83b83400-1439-462d-bba3-42817b5b1fa1" "0" "Most of the cases of CHF in the primary trial, were in cohort 1."
 
