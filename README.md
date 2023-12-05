@@ -59,3 +59,10 @@ Comparison Example
     }
     "83b83400-1439-462d-bba3-42817b5b1fa1" "0" "Most of the cases of CHF in the primary trial, were in cohort 1."
 
+## Task 2: TF-IDF Entailment Prediction Baseline Result
+    F1:0.502415
+    precision_score:0.485981
+    recall_score:0.520000
+
+
+
