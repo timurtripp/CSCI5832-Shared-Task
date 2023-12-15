@@ -4,7 +4,7 @@ import json
 
 label2i = { 'Contradiction': 0, 'Entailment': 1 }
 
-def groupDataByLabel(labels: List[int], texts: List[str], label2i: dict[str, int]) -> dict[int, List[str]]:
+def groupDataByLabel(labels: List[int], texts: List[dict], label2i: dict[str, int]) -> dict[int, List[dict]]:
     data_by_label = {}
     for lab, text in zip(labels, texts):
         lab = label2i[lab]
@@ -42,10 +42,13 @@ def read_dataset(train_path, validation_path, proportion = .9):
         validation_data_raw = json.load(json_file)
     validation_data_raw_keys = list(validation_data_raw.keys())
 
-    train_sentences, train_labels, dev_sentences, dev_labels = split_dataset([train_data_raw[k]['Label'] for k in train_data_raw_keys], [train_data_raw[k]['Statement'] for k in train_data_raw_keys], label2i, proportion)
-    validation_labels, validation_sentences = [label2i[validation_data_raw[k]['Label']] for k in validation_data_raw_keys], [validation_data_raw[k]['Statement'] for k in validation_data_raw_keys]
+    train_sentences, train_labels, dev_sentences, dev_labels = split_dataset([train_data_raw[k]['Label'] for k in train_data_raw_keys], [convert_item_statement(train_data_raw[k]) for k in train_data_raw_keys], label2i, proportion)
+    validation_labels, validation_sentences = [label2i[validation_data_raw[k]['Label']] for k in validation_data_raw_keys], [convert_item_statement(validation_data_raw[k]) for k in validation_data_raw_keys]
 
     return train_sentences, train_labels, dev_sentences, dev_labels, validation_sentences, validation_labels
+
+def convert_item_statement(item):
+    return { 'type': item['Type'], 'statement': item['Statement'], 'pid': item['Primary_id'], 'sid': item['Secondary_id'] if 'Secondary_id' in item else None }
 
 def write_split_dataset(train_path, validation_path, output_path, proportion = .9):
     dataset = read_dataset(train_path, validation_path, proportion)
